@@ -27,19 +27,19 @@ var options = []string{yes, no}
 var dw_dir = "./.plaqs"
 
 func main() {
-	askconfirm()
+	fmt.Println(askconfirm())
 }
 
-func askconfirm() {
+func askconfirm() bool {
 	for {
 		fmt.Println("[" + Green + yes + Reset + "/" + Red + no + Reset + "]")
 		var confi string
 		fmt.Scanln(&confi)
 		if len(confi) != 0 {
 			if string(confi[0]) == string(yes[0]) {
-				return //true
+				return true
 			} else if string(confi[0]) == string(no[0]) {
-				return //false
+				return false
 			} else{
 				fmt.Println("Invalid option")
 			}
