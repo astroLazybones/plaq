@@ -1,12 +1,12 @@
 package main
 
-import "fmt"
-
 import (
-   //"io/ioutil"
-   //"log"
-   //"net/http"
-   //"container/list"
+	//"io/ioutil"
+	"log"
+	"os"
+	"fmt"
+	//"net/http"
+	//"container/list"
 )
 
 var Reset = "\033[0m" 
@@ -26,13 +26,9 @@ var options = []string{yes, no}
 
 var dw_dir = "./.plaqs"
 
-func main() {
-	fmt.Println(askconfirm())
-}
-
 func askconfirm() bool {
 	for {
-		fmt.Println("[" + Green + yes + Reset + "/" + Red + no + Reset + "]")
+		fmt.Print("Would you like to download this file? [" + Green + yes + Reset + "/" + Red + no + Reset + "]: ")
 		var confi string
 		fmt.Scanln(&confi)
 		if len(confi) != 0 {
@@ -41,10 +37,28 @@ func askconfirm() bool {
 			} else if string(confi[0]) == string(no[0]) {
 				return false
 			} else{
-				fmt.Println("Invalid option")
+				fmt.Println("Invalid option\n")
 			}
 		} else {
-			fmt.Println("No option specified")
+			fmt.Println("No option specified\n")
 		}
 	}
 }
+
+func check_arg_valid() {
+	if len(os.Args) != 3 {
+        	log.Fatal("Specify type (e.g -S for download) and the download link, nothing more/less!")
+    	} else {
+		return
+	}
+}
+
+func main() {
+	check_arg_valid()
+	var style = os.Args[1]
+	var link = os.Args[2]
+	fmt.Println(style, link)
+	fmt.Println(askconfirm())
+}
+
+
