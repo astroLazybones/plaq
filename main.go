@@ -21,6 +21,9 @@ var White = "\033[97m"
 
 var yes = "y"
 var no = "n"
+
+var options = []string{yes, no}
+
 var dflt = yes
 var dw_dir = "./.plaqs"
 
@@ -33,10 +36,10 @@ func askconfirm() {
 		fmt.Println("[" + Green + yes + Reset + "/" + Red + no + Reset + "]")
 		var confi string
 		fmt.Scanln(&confi)
-		if len(confi) == 0 {
-			fmt.Println("womp womp")
-		} else {
+		if len(confi) != 0 {
 			break
+		} else {
+			fmt.Println("lol")
 		}
 	}
 }
