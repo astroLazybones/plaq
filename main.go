@@ -24,7 +24,6 @@ var no = "n"
 
 var options = []string{yes, no}
 
-var dflt = yes
 var dw_dir = "./.plaqs"
 
 func main() {
@@ -37,9 +36,15 @@ func askconfirm() {
 		var confi string
 		fmt.Scanln(&confi)
 		if len(confi) != 0 {
-			break
+			if string(confi[0]) == string(yes[0]) {
+				return //true
+			} else if string(confi[0]) == string(no[0]) {
+				return //false
+			} else{
+				fmt.Println("Invalid option")
+			}
 		} else {
-			fmt.Println("lol")
+			fmt.Println("No option specified")
 		}
 	}
 }
