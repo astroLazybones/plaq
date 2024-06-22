@@ -2,7 +2,7 @@ package main
 
 import (
 	//"io/ioutil"
-	"log"
+	//"log"
 	"os"
 	"fmt"
 	//"net/http"
@@ -26,6 +26,9 @@ var options = []string{yes, no}
 
 var dw_dir = "./.plaqs"
 
+var style = ""
+var link = ""
+
 func askconfirm() bool {
 	for {
 		fmt.Print("Would you like to download this file? [" + Green + yes + Reset + "/" + Red + no + Reset + "]: ")
@@ -46,19 +49,26 @@ func askconfirm() bool {
 }
 
 func check_arg_valid() {
-	if len(os.Args) != 3 {
-        	log.Fatal("Specify type (e.g -S for download) and the download link, nothing more/less!")
+	if len(os.Args) <= 1 {
+        	fmt.Println("Invalid usage. Read -h page.")
+		os.Exit(1)
     	} else {
-		return
+		if os.Args[1] == "-h" {
+			return
+		}
 	}
 }
 
 func main() {
 	check_arg_valid()
-	var style = os.Args[1]
-	var link = os.Args[2]
-	fmt.Println(style, link)
-	fmt.Println(askconfirm())
+	//var style = os.Args[1]
+	//var link = os.Args[2]
+	if style != "install" {
+		fmt.Println("Mode: " + style)
+		fmt.Println("Link: " + link)
+		fmt.Println(askconfirm())
+	} else {
+		fmt.Println("Invalid usage. Read -h page.")
+		os.Exit(1)
+	}
 }
-
-
