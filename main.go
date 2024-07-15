@@ -9,6 +9,14 @@ import (
 	//"container/list"
 )
 
+var helper = `
+plaq helper
+help / -h / --help	displays plaq help
+install / -i [link]	installs content from mediafire link
+
+			-plaq has magic cat powers :3
+`
+
 var Reset = "\033[0m" 
 var Red = "\033[31m" 
 var Green = "\033[32m" 
@@ -26,8 +34,7 @@ var options = []string{yes, no}
 
 var dw_dir = "./.plaqs"
 
-var style = ""
-var link = ""
+var style = check_arg_valid()
 
 func askconfirm() bool {
 	for {
@@ -39,7 +46,7 @@ func askconfirm() bool {
 				return true
 			} else if string(confi[0]) == string(no[0]) {
 				return false
-			} else{
+			} else {
 				fmt.Println("Invalid option\n")
 			}
 		} else {
@@ -48,27 +55,56 @@ func askconfirm() bool {
 	}
 }
 
-func check_arg_valid() {
+func check_arg_valid() string {
 	if len(os.Args) <= 1 {
-        	fmt.Println("Invalid usage. Read -h page.")
-		os.Exit(1)
+        	badusage()
     	} else {
-		if os.Args[1] == "-h" {
-			return
+		if os.Args[1] == "help" || os.Args[1] == "--help" || os.Args[1] == "-h" {
+			return "help"
+		} else if os.Args[1] == "install" || os.Args[1] == "-i" || os.Args[1] == "--install"{
+			if len(os.Args) == 3 {
+				return "install"
+			} else {
+				badusage()
+			}
+		} else if os.Args[1] == "meow" || os.Args[1] == "--meow"{
+			return "meow"
+		} else {
+			badusage()
 		}
 	}
+	badusage()
+	return "fatal"
+}
+
+func check_package_valid() {
+	if style == "install" {
+		fmt.Println("Mode: " + style)
+		fmt.Println("Link: " + os.Args[2])
+		askconfirm()
+	} else if style == "help" {
+		fmt.Println(helper)
+	} else if style == "meow"{
+		fmt.Println(`meow!!!
+   _____
+ _|___ /
+(_) |_ \
+ _ ___) |
+(_)____/
+`)
+	} else {
+		badusage()
+	}
+}
+
+func badusage() {
+        fmt.Println("Bad usage. Read the -h page.")
+	os.Exit(1)
 }
 
 func main() {
 	check_arg_valid()
-	//var style = os.Args[1]
-	//var link = os.Args[2]
-	if style != "install" {
-		fmt.Println("Mode: " + style)
-		fmt.Println("Link: " + link)
-		fmt.Println(askconfirm())
-	} else {
-		fmt.Println("Invalid usage. Read -h page.")
-		os.Exit(1)
-	}
+	/*var style = os.Args[1]
+	var link = os.Args[2]*/
+	check_package_valid()
 }
