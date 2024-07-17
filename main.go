@@ -36,6 +36,15 @@ var dw_dir = "./.plaqs"
 
 var style = check_arg_valid()
 
+func str_i_slc(a string, list []string) bool {
+    for _, b := range list {
+        if b == a {
+            return true
+        }
+    }
+    return false
+}
+
 func askconfirm() bool {
 	for {
 		fmt.Print("Would you like to download this file? [" + Green + yes + Reset + "/" + Red + no + Reset + "]: ")
@@ -67,7 +76,7 @@ func check_arg_valid() string {
 			} else {
 				badusage()
 			}
-		} else if os.Args[1] == "meow" || os.Args[1] == "--meow"{
+		} else if os.Args[1] == "meow" || os.Args[1] == "--meow" {
 			return "meow"
 		} else {
 			badusage()
@@ -77,15 +86,16 @@ func check_arg_valid() string {
 	return "fatal"
 }
 
-func check_package_valid() {
-	if style == "install" {
+func check_package_valid(x string) {
+	if x == "install" {
 		fmt.Println("Mode: " + style)
 		fmt.Println("Link: " + os.Args[2])
 		askconfirm()
-	} else if style == "help" {
+	} else if x == "help" {
 		fmt.Println(helper)
-	} else if style == "meow"{
-		fmt.Println(`meow!!!
+	} else if x == "meow"{
+		fmt.Println(`
+meow!!!
    _____
  _|___ /
 (_) |_ \
@@ -103,8 +113,12 @@ func badusage() {
 }
 
 func main() {
-	check_arg_valid()
-	/*var style = os.Args[1]
-	var link = os.Args[2]*/
-	check_package_valid()
+	if str_i_slc("--help", os.Args) || str_i_slc("help", os.Args) || str_i_slc("-h", os.Args) {
+		check_package_valid("help")
+	} else {
+		check_arg_valid()
+		/*var style = os.Args[1]
+		var link = os.Args[2]*/
+		check_package_valid(style)
+	}
 }
